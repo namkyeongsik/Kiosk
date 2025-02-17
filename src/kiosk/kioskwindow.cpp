@@ -41,6 +41,10 @@ MenuItemWidget::MenuItemWidget(const QString &name, const QString &price, const 
     QLabel *priceLabel = new QLabel(price);
 
     imageLabel->setPixmap(QPixmap(imagePath).scaled(80, 80, Qt::KeepAspectRatio));
+    nameLabel->setStyleSheet(" font-size: 15px; width: 100%; ");
+    priceLabel->setStyleSheet(" color: #21BA31; width: 100%; ");
+    nameLabel->setAlignment(Qt::AlignCenter);
+    priceLabel->setAlignment(Qt::AlignCenter);
 
     layout->addWidget(imageLabel);
     layout->addWidget(nameLabel);
@@ -97,11 +101,12 @@ void KioskWindow::createConnectionScreen() {
     connectionScreen = new QWidget();
     QVBoxLayout *connLayout = new QVBoxLayout(connectionScreen);
     QLabel *imageLabel = new QLabel(connectionScreen);
-    QPixmap image("../asset/.png"); // Set image path
+    QPixmap image("../asset/KUBull.png"); // Set image path
     imageLabel->setPixmap(image);
     imageLabel->setAlignment(Qt::AlignCenter);
     imageLabel->setScaledContents(true);
     connectButton = new QPushButton("연결하기", connectionScreen);
+    connectButton->setStyleSheet("background-color: #036B3F; color: white; height: 50px; font-size: 20px; border-radius: 7px;");
     connect(connectButton, &QPushButton::clicked, this, &KioskWindow::startLoading);
     connLayout->addWidget(imageLabel);
     connLayout->addWidget(connectButton);
@@ -115,6 +120,7 @@ void KioskWindow::createLoadingPopup() {
 
     QVBoxLayout *popupLayout = new QVBoxLayout(loadingPopup);
     QLabel *loadingLabel = new QLabel("로딩중...", loadingPopup);
+    loadingLabel->setStyleSheet(" font-size: 25px; ");
     loadingLabel->setAlignment(Qt::AlignCenter);
     QProgressBar *loadingBar = new QProgressBar(loadingPopup);
     loadingBar->setRange(0, 100);
@@ -173,11 +179,13 @@ void KioskWindow::createMainEntryScreen() {
     menuLayout->addWidget(coffeeButton);
     menuLayout->addWidget(beverageButton);
     menuLayout->addWidget(cakeButton);
+    coffeeButton->setStyleSheet("height: 30px; font-size: 20px;");
+    beverageButton->setStyleSheet("height: 30px; font-size: 20px;");
+    cakeButton->setStyleSheet("height: 30px; font-size: 20px;");
     topMenuBar->setLayout(menuLayout);
 
     // Scrollable Grid Layout for Menu Items
     menuScrollArea = new QScrollArea();
-    menuScrollArea->setFixedHeight(350);
     menuContainer = new QWidget();
     menuGrid = new QGridLayout(menuContainer);
 
@@ -189,8 +197,11 @@ void KioskWindow::createMainEntryScreen() {
 
     // Order List & Purchase Button
     QVBoxLayout *orderLayout = new QVBoxLayout();
-    QLabel *orderLabel = new QLabel("주문 목록:");
+    QLabel *orderLabel = new QLabel("주문 목록");
     orderListMain = new QListWidget();
+    orderLabel->setStyleSheet(" font-size: 15px; ");
+    orderListMain->setStyleSheet(" height: 50px; font-size: 15px; ");
+
     QPushButton *purchaseButton = new QPushButton("구매하기");
     connect(purchaseButton, &QPushButton::clicked, this, &KioskWindow::goToPrePurchaseScreen);
 
