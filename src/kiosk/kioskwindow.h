@@ -53,6 +53,7 @@ private slots:
     void goToFinalScreen();
     void goToConnectionScreen();
     void loadMenuItems(const QString &category);
+    void removeSelectedItem();
     void showOrderPopup(const QString &itemName, const QString &itemPrice);
     void updateTotalPrice();
     void showRewardPopup();

@@ -5,6 +5,7 @@
 #include <QScrollArea>
 #include <QLabel>
 #include <QMouseEvent>
+#include <QMainWindow>
 
 QStringList orderListData; // Global storage for order items
 
@@ -101,7 +102,7 @@ void KioskWindow::createConnectionScreen() {
     connectionScreen = new QWidget();
     QVBoxLayout *connLayout = new QVBoxLayout(connectionScreen);
     QLabel *imageLabel = new QLabel(connectionScreen);
-    QPixmap image("../asset/KUBull.png"); // Set image path
+    QPixmap image("../asset/banner.jpg"); // Set image path
     imageLabel->setPixmap(image);
     imageLabel->setAlignment(Qt::AlignCenter);
     imageLabel->setScaledContents(true);
@@ -170,58 +171,77 @@ void KioskWindow::createMainEntryScreen() {
     mainEntryScreen = new QWidget();
     QVBoxLayout *mainLayout = new QVBoxLayout(mainEntryScreen);
 
-    // Top Menu Bar with Category Buttons
+    // 🔹 카테고리 버튼 (상단 메뉴 바)
     QWidget *topMenuBar = new QWidget();
     QHBoxLayout *menuLayout = new QHBoxLayout(topMenuBar);
     QPushButton *coffeeButton = new QPushButton("커피", topMenuBar);
     QPushButton *beverageButton = new QPushButton("음료", topMenuBar);
     QPushButton *cakeButton = new QPushButton("케이크", topMenuBar);
+    
     menuLayout->addWidget(coffeeButton);
     menuLayout->addWidget(beverageButton);
     menuLayout->addWidget(cakeButton);
+    
     coffeeButton->setStyleSheet("height: 30px; font-size: 20px;");
     beverageButton->setStyleSheet("height: 30px; font-size: 20px;");
     cakeButton->setStyleSheet("height: 30px; font-size: 20px;");
+    
     topMenuBar->setLayout(menuLayout);
 
-    // Scrollable Grid Layout for Menu Items
+    // 🔹 메뉴 아이템을 표시하는 ScrollArea
     menuScrollArea = new QScrollArea();
     menuContainer = new QWidget();
     menuGrid = new QGridLayout(menuContainer);
-
+    
     loadMenuItems("coffee");
 
     menuContainer->setLayout(menuGrid);
     menuScrollArea->setWidget(menuContainer);
     menuScrollArea->setWidgetResizable(true);
 
-    // Order List & Purchase Button
+    // 🔹 주문 목록과 버튼 (하단 UI)
     QVBoxLayout *orderLayout = new QVBoxLayout();
-    QLabel *orderLabel = new QLabel("주문 목록");
-    orderListMain = new QListWidget();
-    orderLabel->setStyleSheet(" font-size: 15px; ");
-    orderListMain->setStyleSheet(" height: 50px; font-size: 15px; ");
+    QLabel *orderLabel = new QLabel("🛒 주문 목록");
+    orderLabel->setStyleSheet("font-size: 16px; font-weight: bold; text-align: center;");
 
-    QPushButton *purchaseButton = new QPushButton("구매하기");
+    // 주문 목록 리스트 (스크롤 가능하도록 설정)
+    QScrollArea *orderScrollArea = new QScrollArea();
+    orderListMain = new QListWidget();
+    orderListMain->setFixedHeight(80);  // 🔹 주문 목록의 최대 높이 설정 (80으로 줄임)
+    orderListMain->setStyleSheet("font-size: 14px; background-color: #f8f8f8; border-radius: 5px;");
+    orderScrollArea->setWidget(orderListMain);
+    orderScrollArea->setWidgetResizable(true);
+    orderScrollArea->setFixedHeight(90);  // 🔹 스크롤 영역도 90으로 조정
+
+    // 주문 취소 버튼 추가
+    QPushButton *removeItemButton = new QPushButton("🗑 선택 항목 삭제");
+    removeItemButton->setStyleSheet("background-color: #FF6F61; color: white; font-size: 14px; height: 35px; border-radius: 8px;");
+    connect(removeItemButton, &QPushButton::clicked, this, &KioskWindow::removeSelectedItem);
+
+    QPushButton *purchaseButton = new QPushButton("💳 구매하기");
+    purchaseButton->setStyleSheet("background-color: #036B3F; color: white; font-size: 16px; height: 40px; border-radius: 8px;");
     connect(purchaseButton, &QPushButton::clicked, this, &KioskWindow::goToPrePurchaseScreen);
 
     orderLayout->addWidget(orderLabel);
-    orderLayout->addWidget(orderListMain); // Ensure it's added to the UI
+    orderLayout->addWidget(orderScrollArea);
+    orderLayout->addWidget(removeItemButton);
     orderLayout->addWidget(purchaseButton);
 
-    // Connect Category Buttons
-    connect(coffeeButton, &QPushButton::clicked, this, [=]() { loadMenuItems("coffee"); });
-    connect(beverageButton, &QPushButton::clicked, this, [=]() { loadMenuItems("beverage"); });
-    connect(cakeButton, &QPushButton::clicked, this, [=]() { loadMenuItems("cake"); });
 
-    // Assemble Main Screen
+    // 🔹 전체 레이아웃 조립
     mainLayout->addWidget(topMenuBar);
     mainLayout->addWidget(menuScrollArea);
     mainLayout->addLayout(orderLayout);
 
     mainEntryScreen->setLayout(mainLayout);
     stackedWidget->addWidget(mainEntryScreen);
+
+    // 카테고리 버튼 이벤트 연결
+    connect(coffeeButton, &QPushButton::clicked, this, [=]() { loadMenuItems("coffee"); });
+    connect(beverageButton, &QPushButton::clicked, this, [=]() { loadMenuItems("beverage"); });
+    connect(cakeButton, &QPushButton::clicked, this, [=]() { loadMenuItems("cake"); });
 }
+
 
 
 void KioskWindow::loadMenuItems(const QString &category) {
@@ -239,15 +259,15 @@ void KioskWindow::loadMenuItems(const QString &category) {
     if (category == "coffee") {
         itemNames = {"아메리카노", "카페라떼", "카푸치노", "에스프레소", "모카", "바닐라라떼"};
         itemPrices = {"3000원", "4000원", "4500원", "2500원", "5000원", "4500원"};
-        itemImages = {":/images/coffee1.png", ":/images/coffee2.png", ":/images/coffee3.png", ":/images/coffee4.png", ":/images/coffee5.png", ":/images/coffee6.png"};
+        itemImages = {"../asset/coffee1.jpg", "../asset/coffee1.jpg", "../asset/coffee1.jpg", "../asset/coffee1.jpg", "../asset/coffee1.jpg", "../asset/coffee1.jpg"};
     } else if (category == "beverage") {
         itemNames = {"오렌지 주스", "레몬에이드", "청포도 주스", "딸기 스무디"};
         itemPrices = {"3500원", "4000원", "3800원", "4500원"};
-        itemImages = {":/images/beverage1.png", ":/images/beverage2.png", ":/images/beverage3.png", ":/images/beverage4.png"};
+        itemImages = {"../asset/beverage1.jpg", "../asset/beverage1.jpg", "../asset/beverage1.jpg", "../asset/beverage1.jpg"};
     } else if (category == "cake") {
         itemNames = {"치즈 케이크", "초코 케이크", "티라미수", "레드벨벳 케이크"};
         itemPrices = {"5000원", "5500원", "6000원", "5800원"};
-        itemImages = {":/images/cake1.png", ":/images/cake2.png", ":/images/cake3.png", ":/images/cake4.png"};
+        itemImages = {"../asset/cake1.jpg", "../asset/cake1.jpg", "../asset/cake1.jpg", "../asset/cake1.jpg"};
     }
 
     for (int i = 0; i < itemNames.size(); ++i) {
@@ -259,26 +279,57 @@ void KioskWindow::loadMenuItems(const QString &category) {
     }
 }
 
+void KioskWindow::removeSelectedItem() {
+    QListWidgetItem *selectedItem = orderListMain->currentItem();
+    
+    if (selectedItem) {
+        QString itemText = selectedItem->text();
+        orderListData.removeAll(itemText);  // 글로벌 주문 목록에서 제거
+        delete orderListMain->takeItem(orderListMain->row(selectedItem)); // UI에서 삭제
+
+        updateAllOrderLists();  // 모든 주문 목록 업데이트
+        updateTotalPrice();      // 총 가격 업데이트
+    }
+}
+
+
+
 void KioskWindow::showItemDetailPopup(const QString &itemName, const QString &itemPrice, const QString &itemImage) {
     QDialog itemPopup(this);
     itemPopup.setWindowTitle("상품 정보");
     itemPopup.setFixedSize(300, 400);
 
     QVBoxLayout *popupLayout = new QVBoxLayout(&itemPopup);
+
     QLabel *imageLabel = new QLabel(&itemPopup);
     imageLabel->setPixmap(QPixmap(itemImage).scaled(150, 150, Qt::KeepAspectRatio));
+    
     QLabel *nameLabel = new QLabel(itemName, &itemPopup);
+    nameLabel->setStyleSheet("font-size: 18px; font-weight: bold; text-align: center;");
+    
     QLabel *priceLabel = new QLabel("가격: " + itemPrice, &itemPopup);
+    priceLabel->setStyleSheet("font-size: 16px; color: #21BA31; text-align: center;");
+
     QLabel *descriptionLabel = new QLabel("이 상품에 대한 설명이 여기에 들어갑니다.", &itemPopup);
     descriptionLabel->setWordWrap(true);
+    descriptionLabel->setStyleSheet("font-size: 14px; color: #555; text-align: center;");
 
-    // Additional Options
+    // 🔹 추가 옵션 선택 전 경계선 (가로 구분선)
+    QFrame *separator = new QFrame(&itemPopup);
+    separator->setFrameShape(QFrame::HLine);
+    separator->setFrameShadow(QFrame::Sunken);
+    separator->setStyleSheet("background-color: #ccc; height: 1px; margin: 10px 0;");
+
     QLabel *optionsLabel = new QLabel("추가 옵션 선택:", &itemPopup);
+    optionsLabel->setStyleSheet("font-size: 16px; font-weight: bold; text-align: center;");
+
     QCheckBox *option1 = new QCheckBox("샷 추가 (+500원)", &itemPopup);
     QCheckBox *option2 = new QCheckBox("휘핑 크림 추가 (+300원)", &itemPopup);
     QCheckBox *option3 = new QCheckBox("아이스 변경", &itemPopup);
 
     QPushButton *addButton = new QPushButton("주문 담기", &itemPopup);
+    addButton->setStyleSheet("background-color: #FF6F61; color: white; font-size: 16px; height: 40px; border-radius: 8px;");
+    
     connect(addButton, &QPushButton::clicked, &itemPopup, [&]() {
         QString orderDetails = itemName + " - " + itemPrice;
         if (option1->isChecked()) orderDetails += " + 샷 추가";
@@ -293,15 +344,17 @@ void KioskWindow::showItemDetailPopup(const QString &itemName, const QString &it
     popupLayout->addWidget(nameLabel);
     popupLayout->addWidget(priceLabel);
     popupLayout->addWidget(descriptionLabel);
+    popupLayout->addWidget(separator);  // 🔹 경계선 추가
     popupLayout->addWidget(optionsLabel);
     popupLayout->addWidget(option1);
     popupLayout->addWidget(option2);
     popupLayout->addWidget(option3);
     popupLayout->addWidget(addButton);
-    itemPopup.setLayout(popupLayout);
 
+    itemPopup.setLayout(popupLayout);
     itemPopup.exec();
 }
+
 
 
 void KioskWindow::updateTotalPrice() {
