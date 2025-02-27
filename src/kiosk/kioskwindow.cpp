@@ -60,7 +60,7 @@ void MenuItemWidget::mousePressEvent(QMouseEvent *event) {
 
 
 void KioskWindow::setupUi() {
-    setFixedSize(360, 640);
+    setFixedSize(420, 760);
     stackedWidget = new QStackedWidget(this);
     setCentralWidget(stackedWidget);
 
@@ -207,11 +207,11 @@ void KioskWindow::createMainEntryScreen() {
     // 주문 목록 리스트 (스크롤 가능하도록 설정)
     QScrollArea *orderScrollArea = new QScrollArea();
     orderListMain = new QListWidget();
-    orderListMain->setFixedHeight(80);  // 🔹 주문 목록의 최대 높이 설정 (80으로 줄임)
+    orderListMain->setFixedHeight(120);  // 🔹 주문 목록의 최대 높이 설정 (80으로 줄임)
     orderListMain->setStyleSheet("font-size: 14px; background-color: #f8f8f8; border-radius: 5px;");
     orderScrollArea->setWidget(orderListMain);
     orderScrollArea->setWidgetResizable(true);
-    orderScrollArea->setFixedHeight(90);  // 🔹 스크롤 영역도 90으로 조정
+    orderScrollArea->setFixedHeight(130);  // 🔹 스크롤 영역도 90으로 조정
 
     // 주문 취소 버튼 추가
     QPushButton *removeItemButton = new QPushButton("🗑 선택 항목 삭제");
@@ -706,4 +706,3 @@ void KioskWindow::goToFinalScreen() {
 void KioskWindow::goToConnectionScreen() {
     stackedWidget->setCurrentWidget(connectionScreen);
 }
-
