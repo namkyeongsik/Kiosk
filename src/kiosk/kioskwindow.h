@@ -18,7 +18,6 @@
 #include <QLineEdit>
 #include <QCheckBox>
 
-// Custom Widget for Clickable Menu Items
 class MenuItemWidget : public QWidget {
     Q_OBJECT
 public:
@@ -53,6 +52,7 @@ private slots:
     void goToFinalScreen();
     void goToConnectionScreen();
     void loadMenuItems(const QString &category);
+    void removeSelectedItem();
     void showOrderPopup(const QString &itemName, const QString &itemPrice);
     void updateTotalPrice();
     void showRewardPopup();

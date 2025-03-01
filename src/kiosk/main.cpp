@@ -5,10 +5,33 @@
 int main(int argc, char *argv[]) {
     QApplication app(argc, argv);
 
-    // StyleSetting of all Buttons
-    app.setStyleSheet("QPushButton { background-color: #036B3F; color: white; } QCheckBox::indicator:checked { background-color: #036B3F; content:'✔'; border-radius: 5px; }");
+    QPalette palette;
+    palette.setColor(QPalette::Window, Qt::white);
+    palette.setColor(QPalette::WindowText, Qt::black);
+    app.setPalette(palette);
 
-    // Execute Window
+    app.setStyleSheet(R"(
+        QPushButton {
+            background-color: #036B3F;
+            color: white;
+            font-size: 18px;
+            border-radius: 8px;
+            padding: 10px;
+        }
+        QPushButton:hover {
+            background-color: #028C50;
+        }
+        QLabel {
+            font-size: 18px;
+            color: black;
+        }
+        QDialog {
+            background-color: white;
+            border-radius: 10px;
+            padding: 15px;
+        }
+    )");
+
     KioskWindow kioskWindow;
     kioskWindow.show();
     return app.exec();
