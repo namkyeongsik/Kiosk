@@ -17,6 +17,7 @@
 #include <QMouseEvent>
 #include <QLineEdit>
 #include <QCheckBox>
+#include <QTcpSocket>
 
 class MenuItemWidget : public QWidget {
     Q_OBJECT
@@ -35,7 +36,8 @@ private:
     QString itemImage;
 };
 
-class KioskWindow : public QMainWindow {
+class KioskWindow : public QMainWindow
+{
     Q_OBJECT
 public:
     explicit KioskWindow(QWidget *parent = nullptr);

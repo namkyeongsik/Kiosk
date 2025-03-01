@@ -64,7 +64,7 @@ void MenuItemWidget::mousePressEvent(QMouseEvent *event) {
 }
 
 void KioskWindow::setupUi() {
-    setFixedSize(360, 640);
+    setFixedSize(420, 760);
     stackedWidget = new QStackedWidget(this);
     setCentralWidget(stackedWidget);
 

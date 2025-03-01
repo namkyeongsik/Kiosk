@@ -1,12 +1,5 @@
 
-class Posnet {
-
-    public:
-    Posnet();
-    ~Posnet();
-
-    private:
-    
 
 
-};
+void startNetworkServer();
+
