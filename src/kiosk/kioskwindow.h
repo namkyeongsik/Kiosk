@@ -18,7 +18,6 @@
 #include <QLineEdit>
 #include <QCheckBox>
 
-// Custom Widget for Clickable Menu Items
 class MenuItemWidget : public QWidget {
     Q_OBJECT
 public:
