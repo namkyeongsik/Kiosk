@@ -64,7 +64,7 @@ void MenuItemWidget::mousePressEvent(QMouseEvent *event) {
 }
 
 void KioskWindow::setupUi() {
-    setFixedSize(420, 760);
+    setFixedSize(360, 640);
     stackedWidget = new QStackedWidget(this);
     setCentralWidget(stackedWidget);
 
@@ -117,7 +117,6 @@ void KioskWindow::createConnectionScreen() {
     QVBoxLayout *connLayout = new QVBoxLayout(connectionScreen);
     QLabel *imageLabel = new QLabel(connectionScreen);
     QPixmap image("../asset/banner.jpg");
-
     imageLabel->setPixmap(image);
     imageLabel->setAlignment(Qt::AlignCenter);
     imageLabel->setScaledContents(true);
@@ -223,7 +222,7 @@ void KioskWindow::createMainEntryScreen() {
     menuScrollArea = new QScrollArea();
     menuContainer = new QWidget();
     menuGrid = new QGridLayout(menuContainer);
-    
+
     loadMenuItems("coffee");
 
     menuContainer->setLayout(menuGrid);
@@ -256,11 +255,17 @@ void KioskWindow::createMainEntryScreen() {
     orderLayout->addWidget(removeItemButton);
     orderLayout->addWidget(purchaseButton);
 
+    mainLayout->addWidget(topMenuBar);
+    mainLayout->addWidget(menuScrollArea);
+    mainLayout->addLayout(orderLayout);
+
+    mainEntryScreen->setLayout(mainLayout);
+    stackedWidget->addWidget(mainEntryScreen);
+
     connect(coffeeButton, &QPushButton::clicked, this, [=]() { loadMenuItems("coffee"); });
     connect(beverageButton, &QPushButton::clicked, this, [=]() { loadMenuItems("beverage"); });
     connect(cakeButton, &QPushButton::clicked, this, [=]() { loadMenuItems("cake"); });
 }
-
 
 void KioskWindow::loadMenuItems(const QString &category) {
     QLayoutItem *child;
@@ -361,7 +366,7 @@ void KioskWindow::showItemDetailPopup(const QString &itemName, const QString &it
     popupLayout->addWidget(nameLabel);
     popupLayout->addWidget(priceLabel);
     popupLayout->addWidget(descriptionLabel);
-    popupLayout->addWidget(separator);  // 🔹 경계선 추가
+    popupLayout->addWidget(separator);
     popupLayout->addWidget(optionsLabel);
     popupLayout->addWidget(option1);
     popupLayout->addWidget(option2);
