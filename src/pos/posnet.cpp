@@ -16,7 +16,7 @@
 std::vector<std::thread> clientThreads;
 std::mutex clientMutex;
 
-void handleClient(int clientSocket) {
+void Posnet::handleClient(int clientSocket) {
     char buffer[1024];
 
     while (true) {
@@ -41,7 +41,7 @@ void handleClient(int clientSocket) {
 #endif
 }
 
-void startNetworkServer() {
+void Posnet::startNetworkServer() {
 #ifdef _WIN32
     WSADATA wsaData;
     WSAStartup(MAKEWORD(2, 2), &wsaData);
@@ -58,11 +58,11 @@ void startNetworkServer() {
     serverAddr.sin_port = htons(8081);  // 키오스크와 통신하는 포트
     serverAddr.sin_addr.s_addr = INADDR_ANY;
 
-    if (bind(serverSocket, (struct sockaddr*)&serverAddr, sizeof(serverAddr)) == -1) {
+    if (::bind(serverSocket, (struct sockaddr*)&serverAddr, sizeof(serverAddr)) == -1) {
         std::cerr << "바인딩 실패" << std::endl;
         return;
     }
-
+    
     if (listen(serverSocket, 5) == -1) {
         std::cerr << "리슨 실패" << std::endl;
         return;
