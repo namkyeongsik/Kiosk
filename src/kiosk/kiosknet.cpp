@@ -46,25 +46,25 @@ void KioskNet::connectToPOS() {
 
     std::cout << "POS 연결됨!" << std::endl;
 
-    while (true) {
-        std::string message;
-        std::cout << "키오스크 메시지 입력: ";
-        std::getline(std::cin, message);
+    // while (true) {
+    //     std::string message;
+    //     std::cout << "키오스크 메시지 입력: ";
+    //     std::getline(std::cin, message);
 
-        if (message == "exit") break;
+    //     if (message == "exit") break;
 
-        send(clientSocket, message.c_str(), message.length(), 0);
+    //     send(clientSocket, message.c_str(), message.length(), 0);
 
-        char buffer[1024];
-        memset(buffer, 0, sizeof(buffer));
-        recv(clientSocket, buffer, sizeof(buffer), 0);
-        std::cout << "POS 응답: " << buffer << std::endl;
-    }
+    //     char buffer[1024];
+    //     memset(buffer, 0, sizeof(buffer));
+    //     recv(clientSocket, buffer, sizeof(buffer), 0);
+    //     std::cout << "POS 응답: " << buffer << std::endl;
+    // }
 
-#ifdef _WIN32
-    closesocket(clientSocket);
-    WSACleanup();
-#else
-    close(clientSocket);
-#endif
+// #ifdef _WIN32
+//     closesocket(clientSocket);
+//     WSACleanup();
+// #else
+//     close(clientSocket);
+// #endif
 }

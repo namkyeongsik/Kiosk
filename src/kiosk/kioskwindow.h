@@ -18,6 +18,7 @@
 #include <QLineEdit>
 #include <QCheckBox>
 #include <QTcpSocket>
+#include "kiosknet.h"
 
 class MenuItemWidget : public QWidget {
     Q_OBJECT
@@ -78,6 +79,7 @@ private:
     void createPurchaseKakaoPayScreen();
     void createFinalScreen();
 
+    KioskNet kioskNet;
     QStackedWidget *stackedWidget;
     QWidget *connectionScreen;
     QWidget *mainEntryScreen;

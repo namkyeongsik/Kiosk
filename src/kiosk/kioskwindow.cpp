@@ -165,6 +165,7 @@ void KioskWindow::createLoadingPopup() {
 }
 
 void KioskWindow::startLoading() {
+    kioskNet.connectToPOS();
     connectButton->setEnabled(false);
     loadingPopup->show();
     loadingTimer = new QTimer(this);
@@ -279,15 +280,15 @@ void KioskWindow::loadMenuItems(const QString &category) {
     if (category == "coffee") {
         itemNames = {"아메리카노", "카페라떼", "카푸치노", "에스프레소", "모카", "바닐라라떼"};
         itemPrices = {"3000원", "4000원", "4500원", "2500원", "5000원", "4500원"};
-        itemImages = {"../asset/coffee1.jpg", "../asset/coffee1.jpg", "../asset/coffee1.jpg", "../asset/coffee1.jpg", "../asset/coffee1.jpg", "../asset/coffee1.jpg"};
+        itemImages = {"../asset/coffee1.jpg", "../asset/cafelatte.jpg", "../asset/cappuccino.jpg", "../asset/Espresso.jpg", "../asset/Mocha.jpg", "../asset/Vanilla.jpg"};
     } else if (category == "beverage") {
         itemNames = {"오렌지 주스", "레몬에이드", "청포도 주스", "딸기 스무디"};
         itemPrices = {"3500원", "4000원", "3800원", "4500원"};
-        itemImages = {"../asset/beverage1.jpg", "../asset/beverage1.jpg", "../asset/beverage1.jpg", "../asset/beverage1.jpg"};
+        itemImages = {"../asset/Orange.jpg", "../asset/Lemon.jpg", "../asset/Muscat.jpg", "../asset/Strawberry.jpg"};
     } else if (category == "cake") {
-        itemNames = {"치즈 케이크", "초코 케이크", "티라미수", "레드벨벳 케이크"};
+        itemNames = {"치즈 케이크", "초코 케이크", "티라미수", "생크림 케이크"};
         itemPrices = {"5000원", "5500원", "6000원", "5800원"};
-        itemImages = {"../asset/cake1.jpg", "../asset/cake1.jpg", "../asset/cake1.jpg", "../asset/cake1.jpg"};
+        itemImages = {"../asset/cheese.jpg", "../asset/choco.jpg", "../asset/Tiramisu.jpg", "../asset/cream.jpg"};
     }
 
     for (int i = 0; i < itemNames.size(); ++i) {
