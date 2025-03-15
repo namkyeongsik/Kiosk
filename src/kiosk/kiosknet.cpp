@@ -18,11 +18,11 @@
 #define BUFFER_SIZE 1024
 
 KioskNet::KioskNet() {
-    std::cout << "KioskNet 객체 생성" << std::endl;
+    std::cout << "[Kiosk]KioskNet 객체 생성" << std::endl;
 }
 
 KioskNet::~KioskNet() {
-    std::cout << "KioskNet 객체 소멸" << std::endl;
+    std::cout << "[Kiosk]KioskNet 객체 소멸" << std::endl;
 }
 
 
@@ -34,7 +34,7 @@ void KioskNet::connectToPOS() {
 
     clientSocket = socket(AF_INET, SOCK_STREAM, 0);
     if (clientSocket == -1) {
-        std::cerr << "소켓 생성 실패" << std::endl;
+        std::cerr << "[Kiosk]소켓 생성 실패" << std::endl;
         return;
     }
 
@@ -44,11 +44,11 @@ void KioskNet::connectToPOS() {
     serverAddr.sin_addr.s_addr = inet_addr("127.0.0.1");  // POS 서버
 
     if (connect(clientSocket, (struct sockaddr*)&serverAddr, sizeof(serverAddr)) == -1) {
-        std::cerr << "POS 연결 실패" << std::endl;
+        std::cerr << "[Kiosk]POS 연결 실패" << std::endl;
         return;
     }
 
-    std::cout << "POS 연결됨!" << std::endl;
+    std::cout << "[Kiosk]POS 연결됨!" << std::endl;
     sendMessage(msg.createConnectionMessage());
 
 
@@ -81,21 +81,22 @@ void KioskNet::sendMessage(string msg) {
     memset(buffer, 0, sizeof(buffer));
 
     if(clientSocket == -1) {
-        std::cerr << "POS 서버와 연결되지 않았습니다." << std::endl;
+        std::cerr << "[Kiosk]POS 서버와 연결되지 않았습니다." << std::endl;
         return;
     }
 
     ssize_t sendbyte = send(clientSocket, msg.c_str(), msg.length(), 0);
 
     if(sendbyte == -1) {
-        std::cerr << "메시지 전송 실패" << std::endl;
+        std::cerr << "[Kiosk]메시지 전송 실패" << std::endl;
         return;
     }
     else{
-        std::cout << "메시지 전송 성공" << std::endl;
+        std::cout << "[Kiosk]메시지 전송 성공" << std::endl;
+        memset(buffer, 0, sizeof(buffer));
         recv(clientSocket, buffer, sizeof(buffer), 0);
 
-        std::cout << "POS 응답: " << buffer << std::endl;
+        std::cout << "[Kiosk]POS 응답: " << buffer << std::endl;
     }
 }
 
@@ -110,7 +111,7 @@ Message KioskNet::MessageParse(string receivedMessage){
     }
 
     if(tokens.size() < 1) {
-        std::cerr << "잘못된 메시지 형식!" << std::endl;
+        std::cerr << "[Kiosk]잘못된 메시지 형식!" << std::endl;
         return Message();
     }
 
@@ -119,14 +120,14 @@ Message KioskNet::MessageParse(string receivedMessage){
     }
     else if(tokens[0] == "POINT_SAVE"){
         if(tokens.size() < 4){
-            std::cerr << "잘못된 메시지 형식!" << std::endl;
+            std::cerr << "[Kiosk]잘못된 메시지 형식!" << std::endl;
             return Message();
         }
         return Message("POINT_SAVE", tokens[1], json{});
     }
     else if(tokens[0] == "POINT_USE"){
         if(tokens.size() < 4){
-            std::cerr << "잘못된 메시지 형식!" << std::endl;
+            std::cerr << "[Kiosk]잘못된 메시지 형식!" << std::endl;
             return Message();
         }
         return Message("POINT_USE", tokens[1], json{});
@@ -136,7 +137,7 @@ Message KioskNet::MessageParse(string receivedMessage){
     }
     else if(tokens[0] == "PAYMENT"){
         if(tokens.size() < 5){
-            std::cerr << "잘못된 메시지 형식!" << std::endl;
+            std::cerr << "[Kiosk]잘못된 메시지 형식!" << std::endl;
             return Message();
         }
 
@@ -146,7 +147,7 @@ Message KioskNet::MessageParse(string receivedMessage){
         return Message("ENTRY_UPDATE", tokens[1], json{});
     }
     else{
-        std::cerr << "알 수 없는 메시지 타입" << std::endl;
+        std::cerr << "[Kiosk]알 수 없는 메시지 타입" << std::endl;
         return Message();
     }
 

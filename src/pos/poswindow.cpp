@@ -106,6 +106,10 @@ void POSWindow::setupUi() {
     stackedWidget = new QStackedWidget(this);
     setCentralWidget(stackedWidget);
 
+
+    db = new Database(this);
+    db->openDatabase();
+    db->createTables();
     createMainScreen();
     createEntryListScreen();
     createRevenueScreen();

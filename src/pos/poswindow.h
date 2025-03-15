@@ -19,6 +19,7 @@
 #include <QFileDialog>
 #include <QPixmap>
 #include <vector>
+#include "database.h"
 
 QT_BEGIN_NAMESPACE
 namespace Ui {
@@ -154,6 +155,8 @@ private:
     QListWidget *revenueListWidget;
     QGridLayout *productGridLayout;
     EditEntryPopup *editPopup;
+
+    Database *db;
 };
 
 #endif // POSWINDOW_H
