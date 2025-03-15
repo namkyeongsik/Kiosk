@@ -165,6 +165,12 @@ void KioskWindow::createLoadingPopup() {
 }
 
 void KioskWindow::startLoading() {
+    // std::thread worker([this](){
+    //     kioskNet.connectToPOS();
+    // });
+    // worker.detach();
+    // worker.join();
+    
     kioskNet.connectToPOS();
     connectButton->setEnabled(false);
     loadingPopup->show();

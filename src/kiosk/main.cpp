@@ -34,6 +34,9 @@ int main(int argc, char *argv[]) {
 
     KioskWindow kioskWindow;
     kioskWindow.show();
+    
     return app.exec();
 
 }
+
+

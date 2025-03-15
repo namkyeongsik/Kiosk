@@ -18,6 +18,8 @@
 #include <QLineEdit>
 #include <QCheckBox>
 #include <QTcpSocket>
+#include <thread>
+#include <chrono>
 #include "kiosknet.h"
 
 class MenuItemWidget : public QWidget {
@@ -80,6 +82,7 @@ private:
     void createFinalScreen();
 
     KioskNet kioskNet;
+    Message msg;
     QStackedWidget *stackedWidget;
     QWidget *connectionScreen;
     QWidget *mainEntryScreen;

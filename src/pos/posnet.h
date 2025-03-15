@@ -2,9 +2,8 @@
 #define POSNET_H
 
 #include <vector>
-#include <thread>
 #include <mutex>
-#include <message.h>
+#include "message.h"
 
 #ifdef _WIN32
     #include <winsock2.h>
@@ -16,13 +15,20 @@
 
 
 class Posnet {
+private:
+    Message msg;
+    Message recvmsg;
+    int serverSocket;
+    map <string, int> clientSessionSocketMap;
+
 public:
     Posnet();
     ~Posnet();
-    void connectToKiosk();
+    string createSessionID();
     void startNetworkServer(); // POS 네트워크 서버 실행 함수
-    void handleClient(int clientSocket);
-    void sendMessage(Message msg);
+    Message MessageParse(string receivedMessage);
+    void handleClient(string sessionID, int clientSocket);
+    void sendMessage(string message);
 };
 
 #endif // POSNET_H
