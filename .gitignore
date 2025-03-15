@@ -1,0 +1,8 @@
+.DS_Store
+CMakesLists.txt
+Build
+.vscode
+tempCodeRunnerFile.sh
+build_and_run_all.sh
+build_and_run_kiosk.sh
+build_and_run_pos.sh
